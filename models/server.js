@@ -1,5 +1,5 @@
 const express = require('express');
-
+const { dbConnection } = require('../database/config');
 
 class Server{
     constructor(){
@@ -7,14 +7,27 @@ class Server{
         this.port = process.env.PORT;
         this.usuariosPath = '/api/usuarios';
 
+
+        //Conectar DB
+        this.conectarDb();
+
         //middlewares
         this.middleWare();
 
         //RUTAS
         this.routes();
     }
+    //Funcion para conectar a DB
+    async conectarDb(){
+        await dbConnection()
+    }
 
     middleWare(){
+    //Leer el body
+
+        this.app.use(express.json());
+
+    //Abro pagina estatica 
         this.app.use(express.static('public'));
     }
 
